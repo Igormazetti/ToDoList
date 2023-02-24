@@ -31,11 +31,14 @@ export default function Home() {
       : setCompleted((prevState) => prevState + 1);
   };
 
-  const handleDeleteTodo = (todo: string) => {
+  const handleDeleteTodo = (todo: string, isSelected: boolean) => {
     Alert.alert("Remover ToDo", `Deseja remover este ToDo da lista?`, [
       {
         text: "Sim",
         onPress: () => {
+          if (isSelected) {
+            setCompleted((prevState) => prevState - 1);
+          }
           const deleted = todoList.filter((item) => item !== todo);
           setTodoList(deleted);
           Alert.alert("ToDo removido.");

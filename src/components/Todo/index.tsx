@@ -7,7 +7,7 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 type Props = {
   todo: string;
   checkFunction: (isSelected: boolean) => void;
-  deleteFunction: (todo: string) => void;
+  deleteFunction: (todo: string, isSelected: boolean) => void;
 };
 
 export default function Todo({ todo, checkFunction, deleteFunction }: Props) {
@@ -25,7 +25,7 @@ export default function Todo({ todo, checkFunction, deleteFunction }: Props) {
           setSelection(!isSelected);
         }}
       />
-      <TouchableOpacity onPress={() => deleteFunction(todo)}>
+      <TouchableOpacity onPress={() => deleteFunction(todo, isSelected)}>
         <Icon name="delete" size={21} color="#FFF" />
       </TouchableOpacity>
     </View>
