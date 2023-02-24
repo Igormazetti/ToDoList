@@ -28,9 +28,20 @@ export const styles = StyleSheet.create({
     padding: 16,
     fontSize: 16,
   },
+  searchInputFocus: {
+    backgroundColor: "#262626",
+    height: 60,
+    width: "77%",
+    borderRadius: 5,
+    color: "#FFF",
+    padding: 16,
+    fontSize: 16,
+    borderWidth: 1,
+    borderColor: "#5E60CE",
+  },
   addBtn: {
-    width: 56,
-    height: 56,
+    width: 59,
+    height: 59,
     borderRadius: 5,
     backgroundColor: "#1E6F9F",
     alignItems: "center",
@@ -65,7 +76,6 @@ export const styles = StyleSheet.create({
   },
   list: {
     marginTop: -20,
-    gap: 10,
   },
   emptyContainer: {
     borderTopWidth: 1,

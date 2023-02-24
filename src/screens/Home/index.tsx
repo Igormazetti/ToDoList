@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   Alert,
+  FlatList,
 } from "react-native";
 import { useState } from "react";
 import { styles } from "./styles";
@@ -16,6 +17,8 @@ export default function Home() {
   const [todoList, setTodoList] = useState<string[]>([]);
   const [todo, setTodo] = useState("");
   const [completed, setCompleted] = useState(0);
+  const [focus, setFocus] = useState(false);
+  const customStyle = focus ? styles.searchInputFocus : styles.searchInput;
 
   const handleAddTodo = () => {
     setTodoList((prevState) => [...prevState, todo]);
@@ -28,6 +31,23 @@ export default function Home() {
       : setCompleted((prevState) => prevState + 1);
   };
 
+  const handleDeleteTodo = (todo: string) => {
+    Alert.alert("Remover ToDo", `Deseja remover este ToDo da lista?`, [
+      {
+        text: "Sim",
+        onPress: () => {
+          const deleted = todoList.filter((item) => item !== todo);
+          setTodoList(deleted);
+          Alert.alert("ToDo removido.");
+        },
+      },
+      {
+        text: "Não",
+        style: "cancel",
+      },
+    ]);
+  };
+
   return (
     <View style={styles.mainContainer}>
       <View style={styles.header}>
@@ -35,7 +55,9 @@ export default function Home() {
       </View>
       <View style={styles.searchContainer}>
         <TextInput
-          style={styles.searchInput}
+          onFocus={() => setFocus(true)}
+          onBlur={() => setFocus(false)}
+          style={customStyle}
           placeholder="Adicione uma nova tarefa"
           placeholderTextColor="#6B6B6B"
           value={todo}
@@ -60,17 +82,21 @@ export default function Home() {
           <Text style={styles.count}>{completed}</Text>
         </View>
       </View>
-      <View style={{ padding: 24 }}>
-        <ScrollView style={styles.list}>
-          {todoList.length > 0 ? (
-            todoList.map((item, index) => (
-              <Todo
-                key={item + index}
-                todo={item}
-                checkFunction={handleCheckTodo}
-              />
-            ))
-          ) : (
+      <View style={{ padding: 24, maxHeight: "60%" }}>
+        <FlatList
+          style={styles.list}
+          data={todoList}
+          keyExtractor={(item) => item}
+          renderItem={({ item, index }) => (
+            <Todo
+              key={item + index}
+              todo={item}
+              checkFunction={handleCheckTodo}
+              deleteFunction={handleDeleteTodo}
+            />
+          )}
+          showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => (
             <View style={styles.emptyContainer}>
               <Image
                 style={{ marginTop: 48 }}
@@ -84,7 +110,7 @@ export default function Home() {
               </Text>
             </View>
           )}
-        </ScrollView>
+        />
       </View>
     </View>
   );

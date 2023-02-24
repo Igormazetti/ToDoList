@@ -1,14 +1,16 @@
 import { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
 import { styles } from "./styles";
+import Icon from "react-native-vector-icons/MaterialIcons";
 
 type Props = {
   todo: string;
   checkFunction: (isSelected: boolean) => void;
+  deleteFunction: (todo: string) => void;
 };
 
-export default function Todo({ todo, checkFunction }: Props) {
+export default function Todo({ todo, checkFunction, deleteFunction }: Props) {
   const [isSelected, setSelection] = useState(false);
 
   return (
@@ -23,6 +25,9 @@ export default function Todo({ todo, checkFunction }: Props) {
           setSelection(!isSelected);
         }}
       />
+      <TouchableOpacity onPress={() => deleteFunction(todo)}>
+        <Icon name="delete" size={21} color="#FFF" />
+      </TouchableOpacity>
     </View>
   );
 }
